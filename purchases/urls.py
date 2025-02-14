@@ -19,5 +19,6 @@ urlpatterns = [
     path('contacts/<int:pk>/', UserContactDeleteView.as_view(), name='contact-delete'),
     path('password-reset/', PasswordResetView.as_view(), name='password-reset'),
     path('password-reset-confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
+    path('cached-products/', cached_product_list, name='cached-products'),
 ]
 

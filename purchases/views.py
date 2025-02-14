@@ -12,12 +12,24 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 
+from django.views.decorators.cache import cache_page
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from .models import Product, Order, OrderItem, UserContact
 from .serializers import (
     RegistrationSerializer, UserSerializer, ProductSerializer, 
     OrderSerializer, AddOrderItemSerializer, UserContactSerializer,
     PasswordResetSerializer, PasswordResetConfirmSerializer
 )
+
+@api_view(['GET'])
+@cache_page(60 * 2)  # кэширование на 2 минуты
+def cached_product_list(request):
+    # Вызываем существующий ProductListView, либо формируем список товаров здесь
+    products = Product.objects.all()
+    # Здесь можно использовать сериализатор, для примера просто вернём количество товаров
+    return Response({"count": products.count()})
 
 # Регистрация пользователя
 class RegistrationView(generics.CreateAPIView):
