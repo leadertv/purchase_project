@@ -1,9 +1,9 @@
 from django.urls import path
 from .views import (
-    RegistrationView, CustomAuthToken, ProductListView, ProductDetailView, 
+    RegistrationView, CustomAuthToken, ProductListView, ProductDetailView,
     CartView, OrderConfirmationView, OrderListView, OrderDetailView,
     UserContactCreateView, UserContactDeleteView,
-    PasswordResetView, PasswordResetConfirmView
+    PasswordResetView, PasswordResetConfirmView, TriggerErrorView, cached_product_list
 )
 
 urlpatterns = [

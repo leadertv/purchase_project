@@ -14,6 +14,7 @@ from django.utils.encoding import force_bytes
 
 from django.views.decorators.cache import cache_page
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Product, Order, OrderItem, UserContact
@@ -30,6 +31,18 @@ def cached_product_list(request):
     products = Product.objects.all()
     # Здесь можно использовать сериализатор, для примера просто вернём количество товаров
     return Response({"count": products.count()})
+
+
+class TriggerErrorView(APIView):
+    """
+    APIView для тестового исключения.
+    Используется для проверки интеграции Sentry/Rollbar.
+    """
+    permission_classes = []  # Доступен всем
+
+    def get(self, request, *args, **kwargs):
+        raise Exception("Test exception for Sentry")
+
 
 # Регистрация пользователя
 class RegistrationView(generics.CreateAPIView):
