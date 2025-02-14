@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'purchases',  # наше приложение
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -157,10 +158,23 @@ SERVER_DOMAIN = os.environ.get('SERVER_DOMAIN', 'localhost:8000')
 
 # Django REST Framework
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+         'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+         'user': '100/day',
+    },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Purchase Project API',
+    'DESCRIPTION': 'Документация API для проекта автоматизации закупок',
+    'VERSION': '1.0.0',
 }
