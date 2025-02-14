@@ -16,12 +16,22 @@ from django.views.decorators.cache import cache_page
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema, OpenApiResponse
+from rest_framework.serializers import Serializer, IntegerField
 
 from .models import Product, Order, OrderItem, UserContact
 from .serializers import (
     RegistrationSerializer, UserSerializer, ProductSerializer, 
     OrderSerializer, AddOrderItemSerializer, UserContactSerializer,
     PasswordResetSerializer, PasswordResetConfirmSerializer
+)
+
+# Определяем простой сериализатор для ответа
+class ProductCountSerializer(Serializer):
+    count = IntegerField()
+
+@extend_schema(
+    responses=OpenApiResponse(ProductCountSerializer)
 )
 
 @api_view(['GET'])
